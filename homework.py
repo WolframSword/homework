@@ -2,19 +2,29 @@ class Library:
     """Библиотека"""
 
     def __init__(self):
-        self._books = []
+        self._hall = []
 
-    def add_book(self, book):
+    def add_hall(self, name):
         """
         Добавить книгу
 
-        :param book: Книга
+        :param name: Название
         """
-        self.add_books(book)
+        self.hall.append(Hall(name))
 
     @property
-    def books(self):
-        return self._books
+    def hall(self):
+        return self._hall
+    
+    # def add_book(self, name, shelf_number, rack_number):
+    #     for i in self.hall:
+    #         if i.name == name:
+    #             for j in i.bookshelf:
+    #                 if j.shelf_number == shelf_number:
+    #                     for k in k.bookrack:
+    #                         if k.rack_number == rack_number:
+                               
+                        
     
 class Book:
     """Книга"""
@@ -25,12 +35,13 @@ class Book:
         self.book_id = book_id #идентификатор книги
 
     def __str__(self):
-        return f'Книга: {self.title}, Автор: {self.author}, ID: {book_id}'
+        return f'Книга: {self.title}, Автор: {self.author}, ID: {self.book_id}'
 
 class Rack:
     """Полка"""
 
-    def __init__(self):
+    def __init__(self, rack_number):
+        self.rack_number = rack_number
         self.books = []
 
     def add_book(self, book):
@@ -42,45 +53,42 @@ class Rack:
         if len(self.books) < 10:
             self.books.append(book)
         else:
-            print(f"На полке отсутствует место под книгу '(book.title)'")
+            print(f"На полке отсутствует место под книгу: {book.title}")
 
     def __str__(self):
         return ', '.join(str(book) for book in self.books)
+    
+    def remove_book(self, book_id):
+        """
+        Удалить книгу
+
+        :param book: Книга
+        """
+        for i in self.books:
+            if i.book_id == book_id:
+                self.books.remove(i)
+
 
 class Shelf:
     """Стеллаж"""
 
-    def __init__(self):
+    def __init__(self, shelf_number):
         """
         На стеллаже 10 полок
 
         :param rack: Полка
         """
-
-        self.bookrack = [Rack() for _ in range(10)]
+        self.shelf_number = shelf_number
+        self.bookrack = [Rack(i) for i in range(10)]
     
-    def add_book(self, book, shelf_number):
-        if 0 <= shelf_number < 10:  
-            self.shelves[shelf_number].add_book(book)  
-        else:
-            print("Неверный номер полки.")
-        
-    def __str__(self):
-        return '\n'.join(f"Полка {i+1}: {str(self.shelves[i])}" for i in range(10))
-
 class Hall:
     """Зал"""
     
-    def __init__(self):
+    def __init__(self, name):
         """
         В зале 10 стеллажей
 
         :param shelf: Стеллаж
         """
-        self.bookshelf = [Shelf() for _ in range(10)]
-
-
-
-
-
-    
+        self.name = name
+        self.bookshelf = [Shelf(i) for i in range(10)]
